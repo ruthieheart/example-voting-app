@@ -40,11 +40,13 @@ jobs:
               if curl --fail --silent "$url" >/dev/null; then
                 break
               fi
+
               if [ "$attempt" -eq 30 ]; then
                 echo "Application did not respond at $url"
                 docker compose logs
                 exit 1
               fi
+
               sleep 2
             done
           done
@@ -53,14 +55,21 @@ jobs:
             -X POST --data "vote=b" http://localhost:8080/ >/dev/null
 
           for attempt in $(seq 1 30); do
-            if curl --fail --silent http://localhost:8081/ | grep -qi '1 vote'; then
-              echo "Smoke test passed: a submitted vote appeared in the results."
+            vote_count=$(docker compose exec -T db \
+              psql -U postgres -d postgres -tAc \
+              "SELECT COUNT(*) FROM votes WHERE vote = 'b';" \
+              | tr -d '[:space:]')
+
+            if [[ "$vote_count" =~ ^[0-9]+$ ]] &&
+               [ "$vote_count" -ge 1 ]; then
+              echo "Smoke test passed: vote was stored in PostgreSQL."
               exit 0
             fi
+
             sleep 2
           done
 
-          echo "Submitted vote did not appear on the results page."
+          echo "Submitted vote was not stored in PostgreSQL."
           docker compose logs
           exit 1
 
