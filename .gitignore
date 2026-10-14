@@ -4,3 +4,15 @@ bin/
 obj/
 .vs/
 node_modules/
+
+# Terraform generated files
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Local environment variables and credentials
+.env
+.env.*
+!.env.example

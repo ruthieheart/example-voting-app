@@ -26,6 +26,8 @@ services:
 
   result:
     build: ./result
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env}
     # use nodemon rather than node for local dev
     entrypoint: nodemon --inspect=0.0.0.0 server.js
     depends_on:
@@ -43,6 +45,8 @@ services:
   worker:
     build:
       context: ./worker
+    environment:
+      DB_CONNECTION_STRING: ${DB_CONNECTION_STRING:?Set DB_CONNECTION_STRING in .env}
     depends_on:
       redis:
         condition: service_healthy 
@@ -64,8 +68,8 @@ services:
   db:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
     volumes:
       - "db-data:/var/lib/postgresql/data"
       - "./healthchecks:/healthchecks"

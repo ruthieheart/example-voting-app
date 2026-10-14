@@ -16,7 +16,26 @@ namespace Worker
         {
             try
             {
-                var pgsql = OpenDbConnection("Server=db;Username=postgres;Password=postgres;");
+                var dbConnectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+                if (string.IsNullOrWhiteSpace(dbConnectionString))
+                {
+                    var host = Environment.GetEnvironmentVariable("PGHOST") ?? "db";
+                    var port = Environment.GetEnvironmentVariable("PGPORT") ?? "5432";
+                    var user = Environment.GetEnvironmentVariable("PGUSER") ?? "postgres";
+                    var password = Environment.GetEnvironmentVariable("PGPASSWORD");
+                    var database = Environment.GetEnvironmentVariable("PGDATABASE") ?? "postgres";
+
+                    if (string.IsNullOrWhiteSpace(password))
+                    {
+                        throw new InvalidOperationException(
+                            "Set DB_CONNECTION_STRING or provide PostgreSQL PGHOST, PGUSER, PGPASSWORD and PGDATABASE variables.");
+                    }
+
+                    dbConnectionString =
+                        $"Host={host};Port={port};Username={user};Password={password};Database={database};";
+                }
+
+                var pgsql = OpenDbConnection(dbConnectionString);
                 var redisConn = OpenRedisConnection("redis");
                 var redis = redisConn.GetDatabase();
 
@@ -46,7 +65,7 @@ namespace Worker
                         if (!pgsql.State.Equals(System.Data.ConnectionState.Open))
                         {
                             Console.WriteLine("Reconnecting DB");
-                            pgsql = OpenDbConnection("Server=db;Username=postgres;Password=postgres;");
+                            pgsql = OpenDbConnection(dbConnectionString);
                         }
                         else
                         { // Normal +1 vote requested
