@@ -20,7 +20,7 @@ The application consists of these services:
 
 - **Docker and Docker Compose:** Build and run the application containers locally.
 - **GitHub Actions:** Automates application smoke tests, image builds, vulnerability scanning, and image publishing.
-- **Trivy:** Scans container images for high and critical vulnerabilities.
+- **Trivy:**  Scans container images for high and critical vulnerabilities. The scan is currently non-blocking while reported findings are reviewed and remediated.
 - **Terraform:** Defines AWS networking and Amazon EKS infrastructure.
 - **Helm:** Packages the application and its supporting services as Kubernetes resources.
 
