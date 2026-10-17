@@ -5,7 +5,7 @@ vote:
   replicaCount: 1
   image:
     repository: ghcr.io/ruthieheart/example-voting-app-vote
-    tag: latest
+    tag: "bdb0b7147e8c08811655f9b1904924599c518ec2"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -16,7 +16,7 @@ result:
   replicaCount: 1
   image:
     repository: ghcr.io/ruthieheart/example-voting-app-result
-    tag: latest
+    tag: "bdb0b7147e8c08811655f9b1904924599c518ec2"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -27,7 +27,7 @@ worker:
   replicaCount: 1
   image:
     repository: ghcr.io/ruthieheart/example-voting-app-worker
-    tag: latest
+    tag: "bdb0b7147e8c08811655f9b1904924599c518ec2"
     pullPolicy: IfNotPresent
 
 redis:
