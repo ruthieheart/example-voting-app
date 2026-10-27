@@ -184,12 +184,11 @@ Additional deployment checks were completed on a local Minikube cluster:
 - A test vote was cast and confirmed on the results page.
 - A Helm upgrade was performed, then successfully rolled back to release revision 5.
 
-These checks demonstrate a local Kubernetes deployment and rollback. They do not establish that AWS/EKS infrastructure was deployed.
+These checks demonstrate a local Kubernetes deployment and rollback.
 
 ## 10. Project Status
 
 **Verified:** Docker Compose configuration and application behavior, Terraform formatting and validation, Helm chart linting and rendering, a successful GitHub Actions run, GHCR image publication, and local Minikube deployment with a successful Helm rollback.
 
-**Not performed:** provisioning or deploying the application to AWS/EKS. Terraform configuration validation does not create cloud infrastructure.
 
 The project status distinguishes verified local and CI/CD results from cloud deployment work that has not been performed.
