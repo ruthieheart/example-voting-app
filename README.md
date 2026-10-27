@@ -177,12 +177,19 @@ The following local checks have been run successfully during project preparation
 - `helm lint helm/example-voting-app`
 - `helm template voting helm/example-voting-app`
 
-These checks validate local configuration and application behavior. They do not establish that GitHub Actions has passed, that images have been published, or that AWS/EKS has been deployed.
+Additional deployment checks were completed on a local Minikube cluster:
+
+- Helm release deployed successfully and application pods reached Running/Ready.
+- Voting page and results page were accessed through Kubernetes port-forwarding.
+- A test vote was cast and confirmed on the results page.
+- A Helm upgrade was performed, then successfully rolled back to release revision 5.
+
+These checks demonstrate a local Kubernetes deployment and rollback. They do not establish that AWS/EKS infrastructure was deployed.
 
 ## 10. Project Status
 
-**Prepared and locally validated:** Docker Compose configuration, application connectivity, Terraform configuration, Helm chart rendering, and the GitHub Actions workflow definition.
+**Verified:** Docker Compose configuration and application behavior, Terraform formatting and validation, Helm chart linting and rendering, a successful GitHub Actions run, GHCR image publication, and local Minikube deployment with a successful Helm rollback.
 
-**Still requiring confirmation:** a successful GitHub Actions run, successful image publication to GHCR, and any actual Kubernetes or AWS deployment.
+**Not performed:** provisioning or deploying the application to AWS/EKS. Terraform configuration validation does not create cloud infrastructure.
 
-This distinction ensures that the project report reflects work that has been verified rather than claiming infrastructure that has not been deployed.
+The project status distinguishes verified local and CI/CD results from cloud deployment work that has not been performed.
